@@ -1,4 +1,4 @@
-setwd("/home/fatih/Desktop/ensfiles")
+setwd("/home/fatih/Documents/ENS210/project/ensfiles")
 
 library('seqinr')
 library('alignfigR')
@@ -6,7 +6,7 @@ library('msa')
 
 
 ###SEQINR###
-seqData <- read.alignment('simplified.fas', format='fasta')
+seqData <- read.alignment('more_simplified.fas', format='fasta')
 dist <- seqinr::dist.alignment(seqData)
 scatter.smooth(dist)
 
@@ -17,7 +17,7 @@ heatmap(matrix,margins=c(16, 8))
 ###ALIGNFIGR###
 library(grid)
 library(ggplot2)
-figrdata = read.fasta('simplified.fas')
+figrdata = read.fasta('more_simplified.fas')
 alignfigR::plot_alignment(figrdata)
 grob <- grobTree(textGrob("CSP1", x=0.9,  y=0.5, hjust=0,
                           gp=gpar(col="black", fontsize=8, fontface="italic")))
@@ -31,9 +31,15 @@ plot_alignment(figrdata) + annotate("text", x = -120, y = 11, label="CPS2") + an
 library(msa)
 system.file("tex", "texshade.sty", package="msa")
 
-mySequences <- readAAStringSet("simplified.fas")
-#mySequences <- readAAStringSet("AllCPSsUnaligned.fas")
+#mySequences <- readAAStringSet("more_simplified.fas")
+mySequences <- readAAStringSet("AllCPSsUnaligned.fas")
 msaData <- msa(mySequences)
+
+consensus <- msa::msaConsensusSequence(msaData)
+msaData
+consensus
+
+msaData
 
 msaPrettyPrint(msaData, y=c(100, 213), output="pdf",
                showNames="none", showLogo="top", askForOverwrite=FALSE)
@@ -43,6 +49,13 @@ library(ape)
 #d <- dist.alignment(hemoAln2, "identity")
 hemoTree <- nj(dist)
 plot(hemoTree, main="Phylogenetic Tree of CSP Sequences")
-###MSA###
+data(BLOSUM62)
+conses = msa::msaConservationScore(msaData, BLOSUM62)
 
+plot(conses, type="n")
+lines(conses, type="h")
+
+conses
+
+###MSA###
 
