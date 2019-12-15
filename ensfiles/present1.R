@@ -29,6 +29,7 @@ plot_alignment(figrdata) + annotate("text", x = -120, y = 11, label="CPS2") + an
 
 ###MSA###
 library(msa)
+library(ggplot2)
 system.file("tex", "texshade.sty", package="msa")
 
 CPSI <- readAAStringSet("fasta_110_CPSI.fas")
@@ -48,21 +49,29 @@ I_III_aligned <- msa(CPS_I_III)
 II_III_aligned <- msa(CPS_II_III)
 I_II_III_aligned <- msa(CPS_I_II_III)
 
+cat(, file='tryer.fas')
+
+writeXStringSet(unmasked(I_aligned), filepath = "I_aligned.fas")
+writeXStringSet(unmasked(II_aligned), filepath = "II_aligned.fas")
+writeXStringSet(unmasked(III_aligned), filepath = "III_aligned.fas")
+
+writeXStringSet(unmasked(I_II_aligned), filepath = "I_II_aligned.fas")
+writeXStringSet(unmasked(I_III_aligned), filepath = "I_III_aligned.fas")
+writeXStringSet(unmasked(II_III_aligned), filepath = "II_III_aligned.fas")
+
+writeXStringSet(unmasked(I_II_III_aligned), filepath = "I_II_III_aligned.fas")
+
+
+
 I_consensus <- msa::msaConsensusSequence(I_aligned)
 II_consensus <- msa::msaConsensusSequence(II_aligned)
+III_consensus <- msa::msaConsensusSequence(III_aligned)
 I_II_consensus <- msa::msaConsensusSequence(I_II_aligned)
+I_III_consensus <- msa::msaConsensusSequence(I_III_aligned)
+II_III_consensus <- msa::msaConsensusSequence(II_III_aligned)
+I_II_III_consensus <- msa::msaConsensusSequence(I_II_III_aligned)
 
 
-msaData
-
-msaPrettyPrint(msaData, y=c(100, 213), output="pdf",
-               showNames="none", showLogo="top", askForOverwrite=FALSE)
-  
-install.packages("ape")
-library(ape)
-#d <- dist.alignment(hemoAln2, "identity")
-hemoTree <- nj(dist)
-plot(hemoTree, main="Phylogenetic Tree of CSP Sequences")
 data(BLOSUM62)
 
 conservation_CPS_I = msa::msaConservationScore(I_aligned, BLOSUM62)
@@ -78,8 +87,12 @@ conservation_CPS_I_II_III = msa::msaConservationScore(I_II_III_aligned, BLOSUM62
 attach(mtcars)
 layout(matrix(c(1,2,3,4,5,6,7,7,7), 3, 3, byrow = TRUE))
 
+vec1 <- vector()
+vec1 <- c(vec1, 1:length(conservation_CPS_I))
+ggplot() + geom_line(aes(vec1,conservation_CPS_I)) + annotate("rect", xmin = 0, xmax = 500, ymin = 0, ymax = 100000, alpha = .2, fill = 'red') + annotate("rect", xmin = 550, xmax = 1050, ymin = 0, ymax = 100000, alpha = .2, fill = 'green')
+
 plot(conservation_CPS_I, type="n")
-lines(conservation_CPS_I, type="h")
+lines(conservation_CPS_I, type="h") + annotate("rect", xmin = 0, xmax = 100000, ymin = 0, ymax = 1000, alpha = .2, color = 'red')
 
 plot(conservation_CPS_II, type="n")
 lines(conservation_CPS_II, type="h")
@@ -97,11 +110,22 @@ plot(conservation_CPS_II_III, type="n")
 lines(conservation_CPS_II_III, type="h")
 
 plot(conservation_CPS_I_II_III, type="n")
-lines(conservation_CPS_I_II_III, type="h")
+lines(conservation_CPS_I_II_III, type="h") + annotate("rect", xmin = 0, xmax = 100000, ymin = 0, ymax = 1000, alpha = .2, color = 'red')
 
 ##1 Row'da consensus'ların msa'ları
-
 conses
 
+
+msaData
+
+msaPrettyPrint(msaData, y=c(100, 213), output="pdf",
+               showNames="none", showLogo="top", askForOverwrite=FALSE)
+
+install.packages("ape")
+library(ape)
+#d <- dist.alignment(hemoAln2, "identity")
+hemoTree <- nj(dist)
+plot(hemoTree, main="Phylogenetic Tree of CSP Sequences")
 ###MSA###
+
 
