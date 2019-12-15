@@ -40,6 +40,8 @@ CPS_I_III <- readAAStringSet("fasta_110_CPS_I_III.fas")
 CPS_II_III <- readAAStringSet("fasta_110_CPS_II_III.fas")
 CPS_I_II_III <- readAAStringSet("fasta_110_CPS_I_II_III.fas")
 
+consensus <- readAAStringSet("conses.fas")
+
 I_aligned <- msa(CPSI)
 II_aligned <- msa(CPSII)
 III_aligned <- msa(CPSIII)
@@ -48,6 +50,8 @@ I_II_aligned <- msa(CPS_I_II)
 I_III_aligned <- msa(CPS_I_III)
 II_III_aligned <- msa(CPS_II_III)
 I_II_III_aligned <- msa(CPS_I_II_III)
+
+cons_aligned <- msa(consensus)
 
 writeXStringSet(unmasked(I_aligned), filepath = "I_aligned.fas")
 writeXStringSet(unmasked(II_aligned), filepath = "II_aligned.fas")
@@ -58,6 +62,18 @@ writeXStringSet(unmasked(I_III_aligned), filepath = "I_III_aligned.fas")
 writeXStringSet(unmasked(II_III_aligned), filepath = "II_III_aligned.fas")
 
 writeXStringSet(unmasked(I_II_III_aligned), filepath = "I_II_III_aligned.fas")
+
+cat(">CPSI_consensus\n", file="conses.fas",append=TRUE)
+cat(I_consensus, file="conses.fas",append=TRUE)
+cat("\n", file="conses.fas",append=TRUE)
+
+cat(">CPSII_consensus\n", file="conses.fas",append=TRUE)
+cat(II_consensus, file="conses.fas",append=TRUE)
+cat("\n", file="conses.fas",append=TRUE)
+
+cat(">CPSIII_consensus\n", file="conses.fas",append=TRUE)
+cat(III_consensus, file="conses.fas",append=TRUE)
+cat("\n", file="conses.fas",append=TRUE)
 
 
 
@@ -79,6 +95,7 @@ conservation_CPS_I_II = msa::msaConservationScore(I_II_aligned, BLOSUM62)
 conservation_CPS_I_III = msa::msaConservationScore(I_III_aligned, BLOSUM62)
 conservation_CPS_II_III = msa::msaConservationScore(II_III_aligned, BLOSUM62)
 conservation_CPS_I_II_III = msa::msaConservationScore(I_II_III_aligned, BLOSUM62)
+conservation_consensus = msa::msaConservationScore(cons_aligned, BLOSUM62)
 
 vecI <- vector()
 vecI <- c(vecI, 1:length(conservation_CPS_I))
@@ -101,6 +118,9 @@ vecII_III <- c(vecII_III, 1:length(conservation_CPS_II_III))
 vecI_II_III <- vector()
 vecI_II_III <- c(vecI_II_III, 1:length(conservation_CPS_I_II_III))
 
+vec_cons <- vector()
+vec_cons <- c(vec_cons, 1:length(conservation_consensus))
+
 install.packages("gridExtra")
 library(gridExtra)
 library(grid)
@@ -115,23 +135,20 @@ p4 <- ggplot() + geom_line(aes(vecI_II,conservation_CPS_I_II)) + annotate("rect"
 p5 <- ggplot() + geom_line(aes(vecI_III,conservation_CPS_I_III)) + annotate("rect", xmin = 55, xmax = 409, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'blue') + annotate("rect", xmin = 430, xmax = 1502, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1371, xmax = 1486, ymin = max(conservation_CPS_I) - max(conservation_CPS_I)*0.9, ymax = max(conservation_CPS_I)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 850, xmax = 973, ymin = max(conservation_CPS_I) - max(conservation_CPS_I)*0.9, ymax = max(conservation_CPS_I)*0.9, alpha = .2, fill = 'cyan')
 p6 <- ggplot() + geom_line(aes(vecII_III,conservation_CPS_II_III)) + annotate("rect", xmin = 1, xmax = 355, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'blue') + annotate("rect", xmin = 391, xmax = 1440, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1313, xmax = 1438, ymin = max(conservation_CPS_II) - max(conservation_CPS_II)*0.9, ymax = max(conservation_CPS_II)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 799, xmax = 921, ymin = max(conservation_CPS_II) - max(conservation_CPS_II)*0.9, ymax = max(conservation_CPS_II)*0.9, alpha = .2, fill = 'cyan') + annotate("rect", xmin = 1460, xmax = 1806, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'purple') + annotate("rect", xmin = 1812, xmax = 1907, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'yellow1') + annotate("rect", xmin = 1925, xmax = 2065, ymin = 0, ymax = max(conservation_CPS_II), alpha = .4, fill = 'orchid')# + annotate("rect", xmin = 1920, xmax = 2224, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'green1') 
 p7 <- ggplot() + geom_line(aes(vecI_II_III,conservation_CPS_I_II_III)) + annotate("rect", xmin = 1, xmax = 355, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'blue') + annotate("rect", xmin = 391, xmax = 1440, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1313, xmax = 1438, ymin = max(conservation_CPS_I_II) - max(conservation_CPS_I_II)*0.9, ymax = max(conservation_CPS_I_II)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 799, xmax = 921, ymin = max(conservation_CPS_I_II) - max(conservation_CPS_I_II)*0.9, ymax = max(conservation_CPS_I_II)*0.9, alpha = .2, fill = 'cyan') + annotate("rect", xmin = 1460, xmax = 1806, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'purple') + annotate("rect", xmin = 1812, xmax = 1907, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'yellow1') + annotate("rect", xmin = 1925, xmax = 2065, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .4, fill = 'orchid')# + annotate("rect", xmin = 1920, xmax = 2224, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'green1') 
+p8 <- ggplot() + geom_line(aes(vec_cons, conservation_consensus)) + annotate("rect", xmin = 1, xmax = 355, ymin = 0, ymax = max(conservation_consensus), alpha = .2, fill = 'blue') + annotate("rect", xmin = 391, xmax = 1440, ymin = 0, ymax = max(conservation_consensus), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1313, xmax = 1438, ymin = max(conservation_consensus) - max(conservation_consensus)*0.9, ymax = max(conservation_consensus)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 799, xmax = 921, ymin = max(conservation_consensus) - max(conservation_consensus)*0.9, ymax = max(conservation_consensus)*0.9, alpha = .2, fill = 'cyan') + annotate("rect", xmin = 1460, xmax = 1806, ymin = 0, ymax = max(conservation_consensus), alpha = .2, fill = 'purple') + annotate("rect", xmin = 1812, xmax = 1907, ymin = 0, ymax = max(conservation_consensus), alpha = .2, fill = 'yellow1') + annotate("rect", xmin = 1925, xmax = 2065, ymin = 0, ymax = max(conservation_consensus), alpha = .4, fill = 'orchid')# + annotate("rect", xmin = 1920, xmax = 2224, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'green1') 
 
 lay <- rbind(c(1,2,3),
              c(4,5,6),
-             c(7,7,7))
+             c(7,7,7),
+             c(8,8,8))
 
-grid.arrange(grobs = list(p1, p2, p3, p4, p5, p6, p7), 
+grid.arrange(grobs = list(p1, p2, p3, p4, p5, p6, p7, p8), 
              layout_matrix = lay)
 
-#annotate("rect", xmin = 0, xmax = 500, ymin = 0, ymax = 100000, alpha = .2, fill = 'red') + annotate("rect", xmin = 550, xmax = 1050, ymin = 0, ymax = 100000, alpha = .2, fill = 'green')
-  
-#par(mfrow=c(2,3)) # all plots on one page
-
-attach(mtcars)
 layout(matrix(c(1,2,3,4,5,6,7,7,7), 3, 3, byrow = TRUE))
 
 plot(conservation_CPS_I, type="n")
-lines(conservation_CPS_I, type="h") + annotate("rect", xmin = 0, xmax = 100000, ymin = 0, ymax = 1000, alpha = .2, color = 'red')
+lines(conservation_CPS_I, type="h") 
 
 plot(conservation_CPS_II, type="n")
 lines(conservation_CPS_II, type="h")
@@ -149,7 +166,7 @@ plot(conservation_CPS_II_III, type="n")
 lines(conservation_CPS_II_III, type="h")
 
 plot(conservation_CPS_I_II_III, type="n")
-lines(conservation_CPS_I_II_III, type="h") + annotate("rect", xmin = 0, xmax = 100000, ymin = 0, ymax = 1000, alpha = .2, color = 'red')
+lines(conservation_CPS_I_II_III, type="h") 
 
 ##1 Row'da consensus'ların msa'ları
 conses
