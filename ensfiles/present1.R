@@ -49,8 +49,6 @@ I_III_aligned <- msa(CPS_I_III)
 II_III_aligned <- msa(CPS_II_III)
 I_II_III_aligned <- msa(CPS_I_II_III)
 
-cat(, file='tryer.fas')
-
 writeXStringSet(unmasked(I_aligned), filepath = "I_aligned.fas")
 writeXStringSet(unmasked(II_aligned), filepath = "II_aligned.fas")
 writeXStringSet(unmasked(III_aligned), filepath = "III_aligned.fas")
@@ -82,14 +80,55 @@ conservation_CPS_I_III = msa::msaConservationScore(I_III_aligned, BLOSUM62)
 conservation_CPS_II_III = msa::msaConservationScore(II_III_aligned, BLOSUM62)
 conservation_CPS_I_II_III = msa::msaConservationScore(I_II_III_aligned, BLOSUM62)
 
+vecI <- vector()
+vecI <- c(vecI, 1:length(conservation_CPS_I))
+
+vecII <- vector()
+vecII <- c(vecII, 1:length(conservation_CPS_II))
+
+vecIII <- vector()
+vecIII <- c(vecIII, 1:length(conservation_CPS_III))
+
+vecI_II <- vector()
+vecI_II <- c(vecI_II, 1:length(conservation_CPS_I_II))
+
+vecI_III <- vector()
+vecI_III <- c(vecI_III, 1:length(conservation_CPS_I_III))
+
+vecII_III <- vector()
+vecII_III <- c(vecII_III, 1:length(conservation_CPS_II_III))
+
+vecI_II_III <- vector()
+vecI_II_III <- c(vecI_II_III, 1:length(conservation_CPS_I_II_III))
+
+install.packages("gridExtra")
+library(gridExtra)
+library(grid)
+library(lattice)
+library(cowplot)
+install.packages("cowplot")
+
+p1 <- ggplot() + geom_line(aes(vecI,conservation_CPS_I)) + annotate("rect", xmin = 55, xmax = 409, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'blue') + annotate("rect", xmin = 430, xmax = 1502, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1371, xmax = 1486, ymin = max(conservation_CPS_I) - max(conservation_CPS_I)*0.9, ymax = max(conservation_CPS_I)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 850, xmax = 973, ymin = max(conservation_CPS_I) - max(conservation_CPS_I)*0.9, ymax = max(conservation_CPS_I)*0.9, alpha = .2, fill = 'cyan')
+p2 <- ggplot() + geom_line(aes(vecII,conservation_CPS_II)) + annotate("rect", xmin = 1, xmax = 355, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'blue') + annotate("rect", xmin = 391, xmax = 1440, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1313, xmax = 1438, ymin = max(conservation_CPS_II) - max(conservation_CPS_II)*0.9, ymax = max(conservation_CPS_II)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 799, xmax = 921, ymin = max(conservation_CPS_II) - max(conservation_CPS_II)*0.9, ymax = max(conservation_CPS_II)*0.9, alpha = .2, fill = 'cyan') + annotate("rect", xmin = 1460, xmax = 1806, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'purple') + annotate("rect", xmin = 1812, xmax = 1907, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'yellow1') + annotate("rect", xmin = 1925, xmax = 2065, ymin = 0, ymax = max(conservation_CPS_II), alpha = .4, fill = 'orchid')# + annotate("rect", xmin = 1920, xmax = 2224, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'green1') 
+p3 <- ggplot() + geom_line(aes(vecIII,conservation_CPS_III)) + annotate("rect", xmin = 55, xmax = 409, ymin = 0, ymax = max(conservation_CPS_III), alpha = .2, fill = 'blue') + annotate("rect", xmin = 430, xmax = 1502, ymin = 0, ymax = max(conservation_CPS_III), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1371, xmax = 1486, ymin = max(conservation_CPS_III) - max(conservation_CPS_III)*0.9, ymax = max(conservation_CPS_III)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 850, xmax = 973, ymin = max(conservation_CPS_III) - max(conservation_CPS_III)*0.9, ymax = max(conservation_CPS_III)*0.9, alpha = .2, fill = 'cyan')
+p4 <- ggplot() + geom_line(aes(vecI_II,conservation_CPS_I_II)) + annotate("rect", xmin = 1, xmax = 355, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'blue') + annotate("rect", xmin = 391, xmax = 1440, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1313, xmax = 1438, ymin = max(conservation_CPS_I_II) - max(conservation_CPS_I_II)*0.9, ymax = max(conservation_CPS_I_II)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 799, xmax = 921, ymin = max(conservation_CPS_I_II) - max(conservation_CPS_I_II)*0.9, ymax = max(conservation_CPS_I_II)*0.9, alpha = .2, fill = 'cyan') + annotate("rect", xmin = 1460, xmax = 1806, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'purple') + annotate("rect", xmin = 1812, xmax = 1907, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'yellow1') + annotate("rect", xmin = 1925, xmax = 2065, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .4, fill = 'orchid')# + annotate("rect", xmin = 1920, xmax = 2224, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'green1') 
+p5 <- ggplot() + geom_line(aes(vecI_III,conservation_CPS_I_III)) + annotate("rect", xmin = 55, xmax = 409, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'blue') + annotate("rect", xmin = 430, xmax = 1502, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1371, xmax = 1486, ymin = max(conservation_CPS_I) - max(conservation_CPS_I)*0.9, ymax = max(conservation_CPS_I)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 850, xmax = 973, ymin = max(conservation_CPS_I) - max(conservation_CPS_I)*0.9, ymax = max(conservation_CPS_I)*0.9, alpha = .2, fill = 'cyan')
+p6 <- ggplot() + geom_line(aes(vecII_III,conservation_CPS_II_III)) + annotate("rect", xmin = 1, xmax = 355, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'blue') + annotate("rect", xmin = 391, xmax = 1440, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1313, xmax = 1438, ymin = max(conservation_CPS_II) - max(conservation_CPS_II)*0.9, ymax = max(conservation_CPS_II)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 799, xmax = 921, ymin = max(conservation_CPS_II) - max(conservation_CPS_II)*0.9, ymax = max(conservation_CPS_II)*0.9, alpha = .2, fill = 'cyan') + annotate("rect", xmin = 1460, xmax = 1806, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'purple') + annotate("rect", xmin = 1812, xmax = 1907, ymin = 0, ymax = max(conservation_CPS_II), alpha = .2, fill = 'yellow1') + annotate("rect", xmin = 1925, xmax = 2065, ymin = 0, ymax = max(conservation_CPS_II), alpha = .4, fill = 'orchid')# + annotate("rect", xmin = 1920, xmax = 2224, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'green1') 
+p7 <- ggplot() + geom_line(aes(vecI_II_III,conservation_CPS_I_II_III)) + annotate("rect", xmin = 1, xmax = 355, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'blue') + annotate("rect", xmin = 391, xmax = 1440, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'orange') + annotate("rect", xmin = 1313, xmax = 1438, ymin = max(conservation_CPS_I_II) - max(conservation_CPS_I_II)*0.9, ymax = max(conservation_CPS_I_II)*0.9, alpha = .2, fill = 'red')  + annotate("rect", xmin = 799, xmax = 921, ymin = max(conservation_CPS_I_II) - max(conservation_CPS_I_II)*0.9, ymax = max(conservation_CPS_I_II)*0.9, alpha = .2, fill = 'cyan') + annotate("rect", xmin = 1460, xmax = 1806, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'purple') + annotate("rect", xmin = 1812, xmax = 1907, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .2, fill = 'yellow1') + annotate("rect", xmin = 1925, xmax = 2065, ymin = 0, ymax = max(conservation_CPS_I_II), alpha = .4, fill = 'orchid')# + annotate("rect", xmin = 1920, xmax = 2224, ymin = 0, ymax = max(conservation_CPS_I), alpha = .2, fill = 'green1') 
+
+lay <- rbind(c(1,2,3),
+             c(4,5,6),
+             c(7,7,7))
+
+grid.arrange(grobs = list(p1, p2, p3, p4, p5, p6, p7), 
+             layout_matrix = lay)
+
+#annotate("rect", xmin = 0, xmax = 500, ymin = 0, ymax = 100000, alpha = .2, fill = 'red') + annotate("rect", xmin = 550, xmax = 1050, ymin = 0, ymax = 100000, alpha = .2, fill = 'green')
+  
 #par(mfrow=c(2,3)) # all plots on one page
 
 attach(mtcars)
 layout(matrix(c(1,2,3,4,5,6,7,7,7), 3, 3, byrow = TRUE))
-
-vec1 <- vector()
-vec1 <- c(vec1, 1:length(conservation_CPS_I))
-ggplot() + geom_line(aes(vec1,conservation_CPS_I)) + annotate("rect", xmin = 0, xmax = 500, ymin = 0, ymax = 100000, alpha = .2, fill = 'red') + annotate("rect", xmin = 550, xmax = 1050, ymin = 0, ymax = 100000, alpha = .2, fill = 'green')
 
 plot(conservation_CPS_I, type="n")
 lines(conservation_CPS_I, type="h") + annotate("rect", xmin = 0, xmax = 100000, ymin = 0, ymax = 1000, alpha = .2, color = 'red')
@@ -116,16 +155,61 @@ lines(conservation_CPS_I_II_III, type="h") + annotate("rect", xmin = 0, xmax = 1
 conses
 
 
-msaData
+###MSA###
+
+###APES###
+library(ape)
+
+seq_I_aligned <- msaConvert(I_aligned, type="seqinr::alignment")
+seq_II_aligned <- msaConvert(II_aligned, type="seqinr::alignment")
+seq_III_aligned <- msaConvert(III_aligned, type="seqinr::alignment")
+
+seq_I_II_aligned <- msaConvert(I_II_aligned, type="seqinr::alignment")
+seq_I_III_aligned <- msaConvert(I_III_aligned, type="seqinr::alignment")
+seq_II_III_aligned <- msaConvert(II_III_aligned, type="seqinr::alignment")
+seq_I_II_III_aligned <- msaConvert(I_II_III_aligned, type="seqinr::alignment")
+
+d_CPSI <- dist.alignment(seq_I_aligned, "identity")
+d_CPSII <- dist.alignment(seq_II_aligned, "identity")
+d_CPSIII <- dist.alignment(seq_III_aligned, "identity")
+
+d_CPS_I_II <- dist.alignment(seq_I_II_aligned, "identity")
+d_CPS_I_III <- dist.alignment(seq_I_III_aligned, "identity")
+d_CPS_II_III <- dist.alignment(seq_II_III_aligned, "identity")
+d_CPS_I_II_III <- dist.alignment(seq_I_II_III_aligned, "identity")
+
+t_CPSI <- nj(d_CPSI)
+t_CPSII <- nj(d_CPSII)
+t_CPSIII <- nj(d_CPSIII)
+
+t_CPS_I_II <- nj(d_CPS_I_II)
+t_CPS_I_III <- nj(d_CPS_I_III)
+t_CPS_II_III <- nj(d_CPS_II_III)
+t_CPS_I_II_III <- nj(d_CPS_I_II_III)
+
+write.tree(t_CPSI, file = "t_CPSI.nwk", append = FALSE,
+           digits = 10, tree.names = TRUE)
+
+write.tree(t_CPSII, file = "t_CPSII.nwk", append = FALSE,
+           digits = 10, tree.names = TRUE)
+
+write.tree(t_CPSIII, file = "t_CPSIII.nwk", append = FALSE,
+           digits = 10, tree.names = TRUE)
+
+write.tree(t_CPS_I_II, file = "t_CPS_I_II.nwk", append = FALSE,
+           digits = 10, tree.names = TRUE)
+
+write.tree(t_CPS_I_III, file = "t_CPS_I_III.nwk", append = FALSE,
+           digits = 10, tree.names = TRUE)
+
+write.tree(t_CPS_II_III, file = "t_CPS_II_III.nwk", append = FALSE,
+           digits = 10, tree.names = TRUE)
+
+write.tree(t_CPS_I_II_III, file = "t_CPS_I_II_III.nwk", append = FALSE,
+           digits = 10, tree.names = TRUE)
+
+###APES###
+
 
 msaPrettyPrint(msaData, y=c(100, 213), output="pdf",
                showNames="none", showLogo="top", askForOverwrite=FALSE)
-
-install.packages("ape")
-library(ape)
-#d <- dist.alignment(hemoAln2, "identity")
-hemoTree <- nj(dist)
-plot(hemoTree, main="Phylogenetic Tree of CSP Sequences")
-###MSA###
-
-
