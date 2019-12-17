@@ -10,8 +10,10 @@
 \usepackage{caption}
 \geometry{margin=1in}
 \usepackage{authblk}
- \usepackage{indentfirst}
- \usepackage{multicol}
+\usepackage{indentfirst}
+\usepackage{multicol}
+%\usepackage{biblatex}
+\usepackage{cite}
 \begin{document}
 \title{\textbf{\huge{ENS210 Group \#3 Project Report}}}
 \author{\textbf\large{Berra Say{\i}n \vspace{3ex} Fatih Ta\c{s}yaran \vspace{3ex} Rana Kalkan} \\ \vspace{-4ex} \textit{Instructor: Ogün Adebali}}
@@ -102,7 +104,7 @@ After calculating conserved residues and visual interpretations, we draw a heatm
 \caption{Phylogenetic Tree of Small Dataset}
 \label{fig:tree}
 \end{figure}
-Then we expanded our samples and collected 10 protein sequences from each group of Jawed vertabrates as we mentioned. Then we had 110 sequences from CPSI and CPSII and 4 sequences from CPSIII since we found a few samples in databanks. After that we aligned them as a group of CPSI-CPSII, CPSI-CPSIII, CPSII-CPSIII and CPSI-CPSII-CPSIII. Then we calculated conservation scores for each alignments and plotted their graphs Fig~\ref{fig:biggraph1}. We also identified positions of protein domains and then added those regions belonging to distinct domains into our plots in different colors. We observed that CPSase-L-D2 domain which is represented in green region is less conserved compared to others. This domain is Carbamoyl-phosphate synthase L chain, ATP binding domain and it has an ATP-grasp fold.  
+Then we expanded our samples and collected 10 protein sequences \cite{CPSI}\cite{CPSII}\cite{blast}\cite{interpro7-client}\cite{pfam} from each group of Jawed vertabrates as we mentioned. Then we had 110 sequences from CPSI and CPSII and 4 sequences from CPSIII since we found a few samples in databanks. After that we aligned them as a group of CPSI-CPSII, CPSI-CPSIII, CPSII-CPSIII and CPSI-CPSII-CPSIII. Then we calculated conservation scores for each alignments and plotted their graphs Fig~\ref{fig:biggraph1}. We also identified positions of protein domains and then added those regions belonging to distinct domains into our plots in different colors.\cite{conserved} We observed that CPSase-L-D2 domain which is represented in green region is less conserved compared to others. This domain is Carbamoyl-phosphate synthase L chain, ATP binding domain and it has an ATP-grasp fold.  
 
 \newpage
 \begin{figure}[H]
@@ -129,6 +131,8 @@ Due to time limitations, we could not make all our calculations ready, but final
 
 %To illustrate, terrestrial animals excrete urea since they libe in an environment which don't have abundance of water and 
 
+\bibliography{references}{}
+\bibliographystyle{plain}
 
 
 \end{document}
